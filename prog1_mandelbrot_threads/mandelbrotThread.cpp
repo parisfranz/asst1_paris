@@ -37,7 +37,7 @@ void workerThreadStart(WorkerArgs * const args) {
     int split_totalRows = args->height / args->numThreads;
     int split_startRow = args-> split_totalRows* args->threadId; 
     if (args->height < startrow + 2*split_totalRows){
-        split_totalRows = height - split_startRow;
+        split_totalRows = args->height - split_startRow;
     }
     mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, split_totalRows, args->maxIterations, args->output);
     //printf("%d",split_totalRows);
