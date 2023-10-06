@@ -35,7 +35,7 @@ void workerThreadStart(WorkerArgs * const args) {
     // program that uses two threads, thread 0 could compute the top
     // half of the image and thread 1 could compute the bottom half.
     int split_totalRows = args->height / args->numThreads;
-    int split_startRow = args-> split_totalRows* args->threadId; 
+    int split_startRow =  split_totalRows* args->threadId; 
     if (args->height < startrow + 2*split_totalRows){
         split_totalRows = args->height - split_startRow;
     }
