@@ -34,6 +34,7 @@ void workerThreadStart(WorkerArgs * const args) {
     // to compute a part of the output image.  For example, in a
     // program that uses two threads, thread 0 could compute the top
     // half of the image and thread 1 could compute the bottom half.
+    double startTime = CycleTimer::currentSeconds();
     int split_totalRows = args->height / args->numThreads;
     int split_startRow =  split_totalRows* args->threadId; 
     if (args->height < split_startRow + 2*split_totalRows){
@@ -41,6 +42,8 @@ void workerThreadStart(WorkerArgs * const args) {
     }
     mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, split_totalRows, args->maxIterations, args->output);
     //printf("%d",split_totalRows);
+    double endTime = CycleTimer::currentSeconds();
+    printf("Timing on thread %d : %1.3f ms ", args->threadId, endTime - startTime);
     printf("Hello world from thread %d\n", args->threadId);
 }
 
