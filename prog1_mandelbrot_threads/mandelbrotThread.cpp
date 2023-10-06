@@ -64,7 +64,7 @@ void workerThreadStart(WorkerArgs * const args) {
     
     //printf("%d",split_totalRows);
     double endTime = CycleTimer::currentSeconds();
-    printf("%d, %d, %1.3f \n", args->numThreads, args->threadId,1000*(endTime - startTime));
+    printf("(%d, %d, %1.3f), \n", args->numThreads, args->threadId,1000*(endTime - startTime));
     //printf("Hello world from thread %d\n", args->threadId);
 }
 
