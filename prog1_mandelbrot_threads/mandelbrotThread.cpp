@@ -34,13 +34,34 @@ void workerThreadStart(WorkerArgs * const args) {
     // to compute a part of the output image.  For example, in a
     // program that uses two threads, thread 0 could compute the top
     // half of the image and thread 1 could compute the bottom half.
+    // double startTime = CycleTimer::currentSeconds();
+    // int split_totalRows = args->height / args->numThreads;
+    // int split_startRow =  split_totalRows* args->threadId; 
+    // if (args->height < split_startRow + 2*split_totalRows){
+    //     split_totalRows = args->height - split_startRow;
+    // }
+    // mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, split_totalRows, args->maxIterations, args->output);
+    // //printf("%d",split_totalRows);
+    // double endTime = CycleTimer::currentSeconds();
+    //printf("Timing on thread %d : %1.3f ms ", args->threadId,1000*(endTime - startTime));
+
     double startTime = CycleTimer::currentSeconds();
-    int split_totalRows = args->height / args->numThreads;
-    int split_startRow =  split_totalRows* args->threadId; 
-    if (args->height < split_startRow + 2*split_totalRows){
-        split_totalRows = args->height - split_startRow;
+    int split_sections = args->height / args->numThreads;
+    for (int i = 0; i < split_sections; i++){
+        int split_startRow =  i*args->numThreads + args->threadId; 
+         mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, 1, args->maxIterations, args->output);
+
     }
-    mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, split_totalRows, args->maxIterations, args->output);
+
+    if (split_sections*args->numThreads < args->height){
+        if (args->threadId == args->numThreads -1){
+            int split_startRow = split_sections*args->numThreads;
+            mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, args->height-split_startRow, args->maxIterations, args->output);
+
+        }
+            
+    }
+    
     //printf("%d",split_totalRows);
     double endTime = CycleTimer::currentSeconds();
     printf("Timing on thread %d : %1.3f ms ", args->threadId,1000*(endTime - startTime));
