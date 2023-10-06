@@ -43,7 +43,7 @@ void workerThreadStart(WorkerArgs * const args) {
     mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, split_totalRows, args->maxIterations, args->output);
     //printf("%d",split_totalRows);
     double endTime = CycleTimer::currentSeconds();
-    printf("Timing on thread %d : %1.3f ms ", args->threadId, endTime - startTime);
+    printf("Timing on thread %d : %1.3f ms ", args->threadId,1000*(endTime - startTime));
     printf("Hello world from thread %d\n", args->threadId);
 }
 
