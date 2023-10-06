@@ -54,7 +54,7 @@ void workerThreadStart(WorkerArgs * const args) {
     }
 
     if (split_sections*args->numThreads < args->height){
-        if (args->threadId == args->numThreads -1){
+        if (args->threadId == args->numThreads - 1){
             int split_startRow = split_sections*args->numThreads;
             mandelbrotSerial(args->x0, args->y0, args->x1, args->y1, args->width, args->height, split_startRow, args->height-split_startRow, args->maxIterations, args->output);
 
@@ -64,8 +64,8 @@ void workerThreadStart(WorkerArgs * const args) {
     
     //printf("%d",split_totalRows);
     double endTime = CycleTimer::currentSeconds();
-    printf("Timing on thread %d : %1.3f ms ", args->threadId,1000*(endTime - startTime));
-    printf("Hello world from thread %d\n", args->threadId);
+    printf("%d, %d, %1.3f ms ", args->numThreads, args->threadId,1000*(endTime - startTime));
+    //printf("Hello world from thread %d\n", args->threadId);
 }
 
 //
